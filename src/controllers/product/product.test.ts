@@ -15,3 +15,17 @@ describe("GET /api/products", () => {
     expect(response.status).toBe(200);
   });
 });
+
+describe("GET /api/products/all", () => {
+  test("should return status code 200", async () => {
+    const response = await request(app).get("/api/products/all");
+    expect(response.status).toBe(200);
+  });
+});
+
+describe("POST /api/products", () => {
+  test("should return status code 201", async () => {
+    const response = await request(app).post("/api/products");
+    expect(response.status).toBe(201);
+  });
+});

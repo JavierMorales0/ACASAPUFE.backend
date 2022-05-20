@@ -12,6 +12,12 @@ class ProductService {
       message: "GET all products!",
     });
   }
+
+  public async createProduct(req: Request, res: Response) {
+    return res.status(201).json({
+      message: "POST product!",
+    });
+  }
 }
 
 export default new ProductService();
