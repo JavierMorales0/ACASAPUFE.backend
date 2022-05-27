@@ -75,11 +75,11 @@ CREATE TABLE usuarios (
 
 -- CREAR TABLA DE SESIONES
 CREATE TABLE sesiones (
-  token varchar(255) NOT NULL,
+  token_id varchar(255) NOT NULL,
   usuario varchar(100) NOT NULL,
   fecha_inicio timestamp NOT NULL DEFAULT now(),
   fecha_fin timestamp,
-  PRIMARY KEY (token, usuario),
+  PRIMARY KEY (token_id, usuario),
   CONSTRAINT fk_usuario FOREIGN KEY (usuario) REFERENCES usuarios (usuario) ON DELETE CASCADE
 );
 
