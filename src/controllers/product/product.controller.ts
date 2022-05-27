@@ -1,27 +1,30 @@
 import { Router } from "express";
-import productService from "./product.service";
+import ProviderService from "./product.service";
 import { body } from "express-validator";
-class ProductController {
+import IController from "../IController";
+import Controller from "../Controller";
+class ProductController extends Controller implements IController {
   public router: Router;
 
   constructor() {
+    super();
     this.router = Router();
     this.routes();
   }
 
   public routes(): void {
     // GET /api/products/
-    this.router.get("/", productService.getProducts);
+    this.router.get("/", ProviderService.getProducts);
     // GET /api/products/all
-    this.router.get("/all", productService.getAllProducts);
+    this.router.get("/all", ProviderService.getAllProducts);
     // POST /api/products/
     this.router.post(
       "/",
       body("name").notEmpty().withMessage("El nombre es requerido"),
-      productService.createProduct
+      ProviderService.createProduct
     );
     // DELETE /api/products/:id
-    this.router.delete("/:id", productService.deleteProduct);
+    this.router.delete("/:id", ProviderService.deleteProduct);
   }
 }
 

@@ -1,6 +1,7 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import ProductController from "./controllers/product/product.controller";
+import MovementController from "./controllers/movement/movement.controller";
 
 class App {
   // app de express
@@ -23,6 +24,7 @@ class App {
   // Configuracion de las rutas de la app
   private routes(): void {
     this.app.use("/api/products", ProductController);
+    this.app.use("/api/movements", MovementController)
   }
 
   // Correr el servidor
