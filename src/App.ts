@@ -24,7 +24,7 @@ class App {
   // Configuracion de las rutas de la app
   private routes(): void {
     this.app.use("/api/products", ProductController);
-    this.app.use("/api/movements", MovementController)
+    this.app.use("/api/movements", MovementController);
   }
 
   // Correr el servidor

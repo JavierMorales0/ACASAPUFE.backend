@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
+import conn from "../../db/conn";
 class ProductService {
   /**
    *  Obtiene todos los productos que esten marcados como disponibles
    */
   public async getProducts(req: Request, res: Response) {
+    const response = await conn.query("SELECT * FROM productos");
+
     return res.status(200).json({
       message: "GET products!",
+      data: response.rows,
     });
   }
   /**
