@@ -1,17 +1,24 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
-import conn from "../../db/conn";
+import _DB from "../../db/PostgreSqlConnection";
 class ProductService {
   /**
    *  Obtiene todos los productos que esten marcados como disponibles
    */
   public async getProducts(req: Request, res: Response) {
-    const response = await conn.query("SELECT * FROM productos");
-
-    return res.status(200).json({
-      message: "GET products!",
-      data: response.rows,
-    });
+    try {
+      const response = await _DB.query("SELECT * FROM productos");
+      return res.status(200).json({
+        message: "GET products!",
+        status: "success",
+        data: response.rows,
+      });
+    } catch (error: any) {
+      return res.status(500).json({
+        message: "Error al obtener los productos",
+        error: error.message,
+      });
+    }
   }
   /**
    *  Obtiene todos los productos sin importar su disponibilidad
@@ -20,6 +27,36 @@ class ProductService {
     return res.status(200).json({
       message: "GET all products!",
     });
+  }
+
+  /**
+   * Obtiene un producto en especifico por su cod_barra
+   * */
+  public async getProductByBarCode(req: Request, res: Response) {
+    try {
+      console.log(req.params.id);
+      const response = await _DB.query(
+        "SELECT * FROM productos WHERE cod_barra = $1",
+        [req.params.id]
+      );
+      if (response.rowCount === 0) {
+        return res.status(404).json({
+          message: "El producto no existe",
+          status: "error",
+          data: null,
+        });
+      }
+      return res.status(200).json({
+        message: "GET product!",
+        status: "success",
+        data: response.rows,
+      });
+    } catch (error: any) {
+      return res.status(500).json({
+        message: "Error al obtener el producto",
+        error: error.message,
+      });
+    }
   }
   /**
    *  Crea un producto

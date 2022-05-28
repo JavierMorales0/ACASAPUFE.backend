@@ -17,6 +17,8 @@ class ProductController extends Controller implements IController {
     this.router.get("/", ProviderService.getProducts);
     // GET /api/products/all
     this.router.get("/all", ProviderService.getAllProducts);
+    // GET /api/products/:id
+    this.router.get("/:id", ProviderService.getProductByBarCode);
     // POST /api/products/
     this.router.post(
       "/",
