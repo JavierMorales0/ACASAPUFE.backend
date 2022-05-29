@@ -29,10 +29,12 @@ CREATE TABLE movimientos (
   id serial NOT NULL,
   fecha_movimiento date NOT NULL,
   tipo_movimiento character varying(100) NOT NULL,
+  id_producto integer NOT NULL,
   descripcion varchar(100) NOT NULL,
   cantidad numeric(10, 2) NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_tipo_movimiento FOREIGN KEY (tipo_movimiento) REFERENCES tipo_movimiento (descripcion) ON DELETE CASCADE
+  CONSTRAINT fk_tipo_movimiento FOREIGN KEY (tipo_movimiento) REFERENCES tipo_movimiento (descripcion) ON DELETE CASCADE,
+  CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES productos (id) ON DELETE CASCADE
 );
 
 -- CREAR TABLA DE MOVIMIENTOS ELIMINADOS
@@ -40,19 +42,21 @@ CREATE TABLE movimientos_eliminados (
   id serial NOT NULL,
   fecha_movimiento date NOT NULL,
   tipo_movimiento character varying(100) NOT NULL,
+  id_producto integer NOT NULL,
   descripcion varchar(100) NOT NULL,
   cantidad numeric(10, 2) NOT NULL,
   fecha_eliminado timestamp NOT NULL DEFAULT now(),
   PRIMARY KEY (id),
-  CONSTRAINT fk_tipo_movimiento FOREIGN KEY (tipo_movimiento) REFERENCES tipo_movimiento (descripcion) ON DELETE CASCADE
+  CONSTRAINT fk_tipo_movimiento FOREIGN KEY (tipo_movimiento) REFERENCES tipo_movimiento (descripcion) ON DELETE CASCADE,
+  CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES productos (id) ON DELETE CASCADE
 );
 
 -- CREAR TRIGGER PARA LA ELIMINACION DE UN MOVIMIENTO
 CREATE FUNCTION eliminar_movimiento() RETURNS trigger LANGUAGE plpgsql AS 
 $$
   BEGIN
-    INSERT INTO movimientos_eliminados (id, fecha_movimiento, tipo_movimiento, descripcion, cantidad, fecha_eliminado) 
-      VALUES (OLD.id, OLD.fecha_movimiento, OLD.tipo_movimiento, OLD.descripcion, OLD.cantidad, now());
+    INSERT INTO movimientos_eliminados (id, fecha_movimiento, tipo_movimiento,id_producto, descripcion, cantidad, fecha_eliminado) 
+      VALUES (OLD.id, OLD.fecha_movimiento, OLD.tipo_movimiento, OLD.id_producto, OLD.descripcion, OLD.cantidad, now());
     RETURN OLD;
   END
 $$

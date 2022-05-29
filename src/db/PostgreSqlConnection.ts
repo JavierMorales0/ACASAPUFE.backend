@@ -23,7 +23,6 @@ class PostgreSqlConnection {
 
   // Metodo para hacer cualquier consulta a la base de datos por medio de un string
   public async query(query: string, params?: Array<any> ): Promise<any> {
-      console.log(params)
     return this.conn.query(query, params);
   }
 

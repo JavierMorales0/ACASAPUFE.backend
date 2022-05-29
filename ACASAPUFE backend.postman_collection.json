@@ -7,114 +7,244 @@
 	},
 	"item": [
 		{
-			"name": "Inventory",
+			"name": "Products",
 			"item": [
 				{
-					"name": "Products",
-					"item": [
-						{
-							"name": "listProducts",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{HOST}}/api/products",
-									"host": [
-										"{{HOST}}"
-									],
-									"path": [
-										"api",
-										"products"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "listAllProducts",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{HOST}}/api/products/all",
-									"host": [
-										"{{HOST}}"
-									],
-									"path": [
-										"api",
-										"products",
-										"all"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "createProduct",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\":\"Brazo 1/2 pulgada\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HOST}}/api/products",
-									"host": [
-										"{{HOST}}"
-									],
-									"path": [
-										"api",
-										"products"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "deleteProduct",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{HOST}}/api/products/1",
-									"host": [
-										"{{HOST}}"
-									],
-									"path": [
-										"api",
-										"products",
-										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "listProductByCodBarra",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{HOST}}/api/products/789829342234432",
-									"host": [
-										"{{HOST}}"
-									],
-									"path": [
-										"api",
-										"products",
-										"789829342234432"
-									]
-								}
-							},
-							"response": []
+					"name": "listProducts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SERVER}}/api/products",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "listAllProducts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/all",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createProduct",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Brazo 1/2 pulgada\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/products",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProduct",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/1",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProductByCodBarra",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/products/789829342234432",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"789829342234432"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "listUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SERVER}}/api/users/",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listOneUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SERVER}}/api/users/:username",
+							"host": [
+								"{{SERVER}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "Jalex"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Javier\",\r\n    \"lastName\": \"Morales\",\r\n    \"username\": \"Jalex6\",\r\n    \"password\":\"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/users",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Javier\",\r\n    \"lastName\": \"Morales\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/users/:username",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "Jalex"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/users/:username",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "Jalex6"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -143,6 +273,11 @@
 		{
 			"key": "HOST",
 			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "SERVER",
+			"value": "https://acasapufe-backend.herokuapp.com",
 			"type": "string"
 		}
 	]

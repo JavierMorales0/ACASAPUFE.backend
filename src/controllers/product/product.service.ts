@@ -34,7 +34,6 @@ class ProductService {
    * */
   public async getProductByBarCode(req: Request, res: Response) {
     try {
-      console.log(req.params.id);
       const response = await _DB.query(
         "SELECT * FROM productos WHERE cod_barra = $1",
         [req.params.id]
