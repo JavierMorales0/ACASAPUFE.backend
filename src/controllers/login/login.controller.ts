@@ -19,9 +19,13 @@ class LoginController extends Controller implements IController {
     this.router.post(
       "/",
       [
-        body("username").notEmpty(),
-        body("password").notEmpty(),
-        body("password").isLength({ min: 6 }),
+        body("username")
+          .notEmpty()
+          .withMessage("El nombre de usuario es requerido"),
+        body("password").notEmpty().withMessage("La contraseña es requerida"),
+        body("password")
+          .isLength({ min: 6 })
+          .withMessage("La contraseña debe tener al menos 6 caracteres"),
       ],
       LoginService.login
     );

@@ -8,7 +8,7 @@ class UserService {
   public async getUsers(req: Request, res: Response) {
     try {
       // Make a query to the DB and get all the users
-      const data = await _DB.query("SELECT * FROM usuarios");
+      const data = await _DB.query("SELECT * FROM users");
       // Call the helper function to return the response
       return ServerResponse.success("Obtener usuarios", 200, data.rows, res);
     } catch (error: any) {
@@ -23,10 +23,9 @@ class UserService {
       // Get the username from the params
       const { username } = req.params;
       // Make a query to the DB and get the user
-      const data = await _DB.query(
-        "SELECT * FROM usuarios WHERE usuario = $1",
-        [username]
-      );
+      const data = await _DB.query("SELECT * FROM users WHERE username = $1", [
+        username,
+      ]);
       // Verify if the user exists
       if (data.rowCount === 0) {
         // Call the helper function to return the response
@@ -63,10 +62,9 @@ class UserService {
       const { firstName, lastName, username, password } = req.body;
       // Make a query to the DB and create the user
       const data = await _DB.query(
-        "INSERT INTO usuarios (nombre, apellido, usuario, clave) VALUES ($1, $2, $3, $4) RETURNING *",
+        "INSERT INTO users (first_name, last_name, username, pass) VALUES ($1, $2, $3, $4) RETURNING *",
         [firstName, lastName, username, password]
       );
-      console.log(data);
       // Call the helper function to return the response
       return ServerResponse.success(
         "Crear usuario",
@@ -101,7 +99,7 @@ class UserService {
       const { username } = req.params;
       // Make a query to the DB and update the user
       const data = await _DB.query(
-        "UPDATE usuarios SET nombre = $1, apellido = $2, clave = $3 WHERE usuario = $4 RETURNING *",
+        "UPDATE users SET first_name = $1, last_name = $2, pass = $3 WHERE username = $4 RETURNING *",
         [firstName, lastName, password, username]
       );
       // Verify if the user exists
@@ -134,7 +132,7 @@ class UserService {
       const { username } = req.params;
       // Make a query to the DB and delete the user
       const data = await _DB.query(
-        "DELETE FROM usuarios WHERE usuario = $1 RETURNING *",
+        "DELETE FROM users WHERE username = $1 RETURNING *",
         [username]
       );
       // Verify if the user exists

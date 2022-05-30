@@ -5,85 +5,68 @@ CREATE DATABASE db_acasapufe WITH ENCODING 'UTF8';
 USE db_acasapufe;
 
 -- CREAR TABLA DE PRODUCTOS O INSUMOS
-CREATE TABLE productos (
+CREATE TABLE products (
   id serial NOT NULL,
-  cod_barra varchar(50) DEFAULT '',
-  descripcion varchar(100) NOT NULL,
-  existencia numeric(10, 2) NOT NULL,
-  categoria character varying(100) NOT NULL,
-  min_existencia numeric(10, 2) NOT NULL,
-  esta_activo boolean NOT NULL,
+  barcode varchar(50) DEFAULT '',
+  description varchar(100) NOT NULL,
+  stock numeric(10, 2) NOT NULL,
+  category character varying(100) NOT NULL,
+  min_stock numeric(10, 2) NOT NULL,
+  is_available boolean NOT NULL,
   PRIMARY KEY (id),
-  UNIQUE (cod_barra)
+  UNIQUE (barcode)
 );
 
--- CREAR TABLA DE TIPO MOVIMIENTO 
-CREATE TABLE tipo_movimiento (
-  descripcion varchar(100) NOT NULL,
-  PRIMARY KEY (descripcion),
-  UNIQUE (descripcion)
-);
 
 -- CREAR TABLA DE MOVIMIENTOS
-CREATE TABLE movimientos (
+CREATE TABLE movements (
   id serial NOT NULL,
-  fecha_movimiento date NOT NULL,
-  tipo_movimiento character varying(100) NOT NULL,
-  id_producto integer NOT NULL,
-  descripcion varchar(100) NOT NULL,
-  cantidad numeric(10, 2) NOT NULL,
+  movement_date date NOT NULL,
+  movement_type character varying(100) NOT NULL,
+  id_product integer NOT NULL,
+  quantity numeric(10, 2) NOT NULL,
+  description varchar(100) NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_tipo_movimiento FOREIGN KEY (tipo_movimiento) REFERENCES tipo_movimiento (descripcion) ON DELETE CASCADE,
-  CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES productos (id) ON DELETE CASCADE
+  CONSTRAINT fk_product FOREIGN KEY (id_product) REFERENCES products (id) ON DELETE CASCADE
 );
 
 -- CREAR TABLA DE MOVIMIENTOS ELIMINADOS
-CREATE TABLE movimientos_eliminados (
+CREATE TABLE deleted_movements (
   id serial NOT NULL,
-  fecha_movimiento date NOT NULL,
-  tipo_movimiento character varying(100) NOT NULL,
-  id_producto integer NOT NULL,
-  descripcion varchar(100) NOT NULL,
-  cantidad numeric(10, 2) NOT NULL,
-  fecha_eliminado timestamp NOT NULL DEFAULT now(),
+  movement_date date NOT NULL,
+  movement_type character varying(100) NOT NULL,
+  id_product integer NOT NULL,
+  quantity numeric(10, 2) NOT NULL,
+  description varchar(100) NOT NULL,
+  deleted_date timestamp NOT NULL DEFAULT now(),
   PRIMARY KEY (id),
-  CONSTRAINT fk_tipo_movimiento FOREIGN KEY (tipo_movimiento) REFERENCES tipo_movimiento (descripcion) ON DELETE CASCADE,
-  CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES productos (id) ON DELETE CASCADE
+  CONSTRAINT fk_product FOREIGN KEY (id_product) REFERENCES products (id) ON DELETE CASCADE
 );
 
 -- CREAR TRIGGER PARA LA ELIMINACION DE UN MOVIMIENTO
-CREATE FUNCTION eliminar_movimiento() RETURNS trigger LANGUAGE plpgsql AS 
+CREATE FUNCTION delete_movement() RETURNS trigger LANGUAGE plpgsql AS 
 $$
   BEGIN
-    INSERT INTO movimientos_eliminados (id, fecha_movimiento, tipo_movimiento,id_producto, descripcion, cantidad, fecha_eliminado) 
-      VALUES (OLD.id, OLD.fecha_movimiento, OLD.tipo_movimiento, OLD.id_producto, OLD.descripcion, OLD.cantidad, now());
+    INSERT INTO deleted_movements (id, movement_date, movement_type,id_product, description, quantity, deleted_date) 
+      VALUES (OLD.id, OLD.movement_date, OLD.movement_type, OLD.id_product, OLD.description, OLD.quantity, now());
     RETURN OLD;
   END
-$$
+$$;
 
-CREATE TRIGGER eliminar_movimiento
-  AFTER DELETE ON movimientos
+CREATE TRIGGER delete_movement
+  AFTER DELETE ON movements
   FOR EACH ROW
-  EXECUTE PROCEDURE eliminar_movimiento();
+  EXECUTE PROCEDURE delete_movement();
 
 
 -- CREAR TABLA DE USUARIOS
-CREATE TABLE usuarios (
-  nombre varchar(100) NOT NULL,
-  apellido varchar(100) NOT NULL,
-  usuario varchar(100) NOT NULL,
-  clave varchar(100) NOT NULL,
-  PRIMARY KEY (usuario),
-  UNIQUE (usuario)
+CREATE TABLE users (
+  first_name varchar(100) NOT NULL,
+  last_name varchar(100) NOT NULL,
+  username varchar(100) NOT NULL,
+  pass varchar(255) NOT NULL,
+  PRIMARY KEY (username),
+  UNIQUE (username)
 );
 
--- CREAR TABLA DE SESIONES
-CREATE TABLE sesiones (
-  token_id varchar(255) NOT NULL,
-  usuario varchar(100) NOT NULL,
-  fecha_inicio timestamp NOT NULL DEFAULT now(),
-  fecha_fin timestamp,
-  PRIMARY KEY (token_id, usuario),
-  CONSTRAINT fk_usuario FOREIGN KEY (usuario) REFERENCES usuarios (usuario) ON DELETE CASCADE
-);
 

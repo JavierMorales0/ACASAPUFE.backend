@@ -28,6 +28,9 @@ class UserController extends Controller implements IController {
           .notEmpty()
           .withMessage("El nombre de usuario es requerido"),
         body("password").notEmpty().withMessage("La contraseña es requerida"),
+        body("password")
+          .isLength({ min: 6 })
+          .withMessage("La contraseña debe tener al menos 6 caracteres"),
       ],
       UserService.createUser
     );
