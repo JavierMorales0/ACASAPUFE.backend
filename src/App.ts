@@ -1,5 +1,5 @@
 import express from "express";
-import * as dotenv from "dotenv";
+import EnvironmentVariable from "./helpers/EnvironmentVariable";
 import ProductController from "./controllers/product/product.controller";
 import MovementController from "./controllers/movement/movement.controller";
 import UserController from "./controllers/user/user.controller";
@@ -20,7 +20,6 @@ class App {
   private middlewares(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    dotenv.config();
   }
 
   // Configuracion de las rutas de la app
@@ -33,8 +32,8 @@ class App {
 
   // Correr el servidor
   public listen(): void {
-    this.app.listen(process.env.PORT, () => {
-      console.log(`App listening on the port ${process.env.PORT}`);
+    this.app.listen(EnvironmentVariable.getPort(), () => {
+      console.log(`App listening on the port ${EnvironmentVariable.getPort()}`);
     });
   }
 }

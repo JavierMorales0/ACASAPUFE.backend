@@ -63,10 +63,14 @@ class LoginService {
         200,
         {
           token: token,
+          username: user.username,
+          firstName: user.first_name,
+          lastName: user.last_name,
         },
         res
       );
-    } catch (error) {
+    } catch (error: any) {
+      // Call the helper function to return the response
       return ServerResponse.error("Error al loguearse", 500, error, res);
     }
   }

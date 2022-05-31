@@ -1,5 +1,5 @@
-import "dotenv/config";
+import EnvironmentVariable from "../helpers/EnvironmentVariable";
 
 export default {
-  connectionString: process.env.DB_CONNECTION_STRING || "",
+  connectionString: EnvironmentVariable.getDbConnectionString(),
 };

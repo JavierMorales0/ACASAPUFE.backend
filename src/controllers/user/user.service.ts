@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import _DB from "../../db/PostgreSqlConnection";
 import ServerResponse from "../../helpers/ServerResponse";
+import Password from "../../helpers/Password";
 
 class UserService {
   // Get all the users
@@ -60,10 +61,12 @@ class UserService {
       }
       // Get the body from the request
       const { firstName, lastName, username, password } = req.body;
+      // Create the hash for the password
+      const pass_hash = await Password.createHash(password);
       // Make a query to the DB and create the user
       const data = await _DB.query(
         "INSERT INTO users (first_name, last_name, username, pass) VALUES ($1, $2, $3, $4) RETURNING *",
-        [firstName, lastName, username, password]
+        [firstName, lastName, username, pass_hash]
       );
       // Call the helper function to return the response
       return ServerResponse.success(
