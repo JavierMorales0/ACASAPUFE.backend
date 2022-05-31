@@ -11,8 +11,8 @@ CREATE TABLE products (
   description varchar(100) NOT NULL,
   stock numeric(10, 2) NOT NULL,
   category character varying(100) NOT NULL,
-  min_stock numeric(10, 2) NOT NULL,
-  is_available boolean NOT NULL,
+  min_stock numeric(10, 2) NOT NULL DEFAULT 0.00,
+  is_available boolean NOT NULL DEFAULT TRUE,
   PRIMARY KEY (id),
   UNIQUE (barcode)
 );

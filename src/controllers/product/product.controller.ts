@@ -22,7 +22,11 @@ class ProductController extends Controller implements IController {
     // POST /api/products/
     this.router.post(
       "/",
-      body("name").notEmpty().withMessage("El nombre es requerido"),
+      body("barcode").notEmpty().withMessage("Código de barras es requerido"),
+      body("description").notEmpty().withMessage("Descripción es requerida"),
+      body("stock").notEmpty().withMessage("Stock es requerido"),
+      body("stock").isNumeric().withMessage("Stock debe ser numérico"),
+      body("category").notEmpty().withMessage("Categoría es requerida"),
       ProductService.createProduct
     );
     // DELETE /api/products/:id
