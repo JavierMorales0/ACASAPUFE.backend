@@ -119,7 +119,7 @@ class ProductService {
         ]
       );
       // Call the helper function to return the response
-      return ServerResponse.success("Producto creado", 200, response.rows, res);
+      return ServerResponse.success("Producto creado", 201, response.rows, res);
     } catch (error) {
       // Call the helper function to return the response
       return ServerResponse.error(

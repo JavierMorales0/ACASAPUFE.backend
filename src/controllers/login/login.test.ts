@@ -42,7 +42,6 @@ describe("POST /api/login", () => {
       username: "admin",
       password: "123456",
     });
-    console.log(response)
     expect(response.body.data.token).toBeDefined();
   });
 });

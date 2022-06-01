@@ -1,5 +1,6 @@
 import IController from "../IController";
 import Controller from "../Controller";
+import MovementService from "./movement.service";
 import { Router } from "express";
 
 class MovementController extends Controller implements IController {
@@ -13,9 +14,13 @@ class MovementController extends Controller implements IController {
 
   public routes(): void {
     // GET /api/movements/
-    this.router.get("/", (req, res) => {
-      return res.send("Movement");
-    });
+    this.router.get("/", MovementService.getMovements);
+    // GET /api/movements/in
+    this.router.get("/in", MovementService.getInMovements);
+    // GET /api/movements/out
+    this.router.get("/out", MovementService.getOutMovements);
+    // DELETE /api/movements/:id
+    this.router.delete("/:id", MovementService.deleteMovement);
   }
 }
 

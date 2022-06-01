@@ -26,9 +26,10 @@ describe("GET /api/products/all", () => {
 describe("POST /api/products", () => {
   test("should return a status code 201 ", async () => {
     const response = await request(app).post("/api/products").send({
-      barcode: "123456789",
+      barcode: "123456789fg",
       description: "Producto de prueba",
       stock: 10,
+      category: "Abarrotes"
     });
     expect(response.status).toBe(201);
   });
