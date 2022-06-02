@@ -100,21 +100,13 @@ class UserService {
       const { firstName, lastName, password } = req.body;
       // Get the usurname from the params
       const { username } = req.params;
+      // Hash the password
+      const pass_hash = await Password.createHash(password);
       // Make a query to the DB and update the user
       const data = await _DB.query(
         "UPDATE users SET first_name = $1, last_name = $2, pass = $3 WHERE username = $4 RETURNING *",
-        [firstName, lastName, password, username]
+        [firstName, lastName, pass_hash, username]
       );
-      // Verify if the user exists
-      if (data.rowCount === 0) {
-        // Call the helper function to return the response
-        return ServerResponse.error(
-          "Error al actualizar usuario",
-          404,
-          "El usuario no existe en la base de datos",
-          res
-        );
-      }
       // Call the helper function to return the response
       return ServerResponse.success("Actualizar usuario", 200, data.rows, res);
     } catch (error: any) {

@@ -21,7 +21,7 @@ CREATE TABLE products (
 -- CREAR TABLA DE MOVIMIENTOS
 CREATE TABLE movements (
   id serial NOT NULL,
-  movement_date date NOT NULL,
+  movement_date date NOT NULL DEFAULT current_date,
   movement_type character varying(100) NOT NULL,
   id_product integer NOT NULL,
   quantity numeric(10, 2) NOT NULL,

@@ -77,6 +77,45 @@ class MovementService {
   }
 
   /**
+   * Crear un movimiento de inventario
+   */
+  public async createMovement(req: Request, res: Response) {
+    try {
+      // Verify if there are errors
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return ServerResponse.error(
+          "Error de validación",
+          422,
+          errors.array(),
+          res
+        );
+      }
+      // Get the params from the body
+      const { movement_type, id_product, quantity, description } = req.body;
+      // Make a query to the database and create the movement
+      const response = await _DB.query(
+        "INSERT INTO movements (movement_type, id_product, quantity, description) VALUES ($1, $2, $3, $4) RETURNING *",
+        [movement_type, id_product, quantity, description || ""]
+      );
+      // Call the helper function to return the response
+      return ServerResponse.success(
+        "Movimiento creado",
+        201,
+        response.rows,
+        res
+      );
+    } catch (error) {
+      return ServerResponse.error(
+        "Error al crear el movimiento",
+        500,
+        error,
+        res
+      );
+    }
+  }
+
+  /**
    * Eliminar un movimiento de inventario
    */
   public async deleteMovement(req: Request, res: Response) {
