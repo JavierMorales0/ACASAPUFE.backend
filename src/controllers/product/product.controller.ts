@@ -27,6 +27,7 @@ class ProductController extends Controller implements IController {
       body("stock").notEmpty().withMessage("Stock es requerido"),
       body("stock").isNumeric().withMessage("Stock debe ser numérico"),
       body("category").notEmpty().withMessage("Categoría es requerida"),
+      body("id_company").notEmpty().withMessage("Empresa es requerida"),
       ProductService.createProduct
     );
     // DELETE /api/products/:id

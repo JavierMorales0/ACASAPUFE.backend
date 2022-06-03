@@ -55,6 +55,84 @@ class ProductService {
   }
 
   /**
+   * Obtiene los productos de una sola empresa
+   */
+  public async getProductsByCompany(req: Request, res: Response) {
+    try {
+      // Get the request params data
+      const { id } = req.params;
+      // Make a query to the DB and get the products
+      const response = await _DB.query(
+        "SELECT * FROM products WHERE company_id = $1 WHERE is_available = true",
+        [id]
+      );
+      // If there is not a product with this id
+      if (response.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontro ningun producto con este id de compañia",
+          404,
+          null,
+          res
+        );
+      }
+      // Call the helper function to return the response
+      return ServerResponse.success(
+        "Listado de productos",
+        200,
+        response.rows,
+        res
+      );
+    } catch (error) {
+      // Call the helper function to return the response
+      return ServerResponse.error(
+        "Error al obtener los productos",
+        500,
+        error,
+        res
+      );
+    }
+  }
+
+  /**
+   * Obtiene todos los productos de una empresa
+   */
+  public async getAllProductsByCompany(req: Request, res: Response) {
+    try {
+      // Get the request params data
+      const { id } = req.params;
+      // Make a query to the DB and get the products
+      const response = await _DB.query(
+        "SELECT * FROM products WHERE company_id = $1",
+        [id]
+      );
+      // If there is not a product with this id
+      if (response.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontro ningun producto con este id de compañia",
+          404,
+          null,
+          res
+        );
+      }
+      // Call the helper function to return the response
+      return ServerResponse.success(
+        "Listado de productos",
+        200,
+        response.rows,
+        res
+      );
+    } catch (error) {
+      // Call the helper function to return the response
+      return ServerResponse.error(
+        "Error al obtener los productos",
+        500,
+        error,
+        res
+      );
+    }
+  }
+
+  /**
    * Obtiene un producto en especifico por su cod_barra
    * */
   public async getProductByBarCode(req: Request, res: Response) {
@@ -104,11 +182,18 @@ class ProductService {
         return res.status(422).json({ errors: errors.array() });
       }
       // Get the data from the request
-      const { barcode, description, stock, category, min_stock, is_available } =
-        req.body;
+      const {
+        barcode,
+        description,
+        stock,
+        category,
+        min_stock,
+        is_available,
+        id_company,
+      } = req.body;
       // Make a query to the DB and get the user
       const response = await _DB.query(
-        "INSERT INTO products (barcode, description, stock, category, min_stock, is_available) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+        "INSERT INTO products (barcode, description, stock, category, min_stock, is_available, id_company) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
         [
           barcode,
           description,
@@ -116,6 +201,7 @@ class ProductService {
           category,
           min_stock ?? 0.0,
           is_available ?? true,
+          id_company,
         ]
       );
       // Call the helper function to return the response
