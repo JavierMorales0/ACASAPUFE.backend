@@ -15,9 +15,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{SERVER}}/api/products",
+							"raw": "{{HOST}}/api/products",
 							"host": [
-								"{{SERVER}}"
+								"{{HOST}}"
 							],
 							"path": [
 								"api",
@@ -53,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Brazo 1/2 pulgada\"\r\n}",
+							"raw": "{\r\n    \"barcode\": \"1234567891q\",\r\n    \"description\": \"Producto de prueba\",\r\n    \"stock\": 10,\r\n    \"category\": \"Prueba\"\r\n    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -79,14 +79,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/1",
+							"raw": "{{HOST}}/api/products/8",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products",
-								"1"
+								"8"
 							]
 						}
 					},
@@ -122,9 +122,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{SERVER}}/api/users/",
+							"raw": "{{HOST}}/api/users/",
 							"host": [
-								"{{SERVER}}"
+								"{{HOST}}"
 							],
 							"path": [
 								"api",
@@ -167,7 +167,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Javier\",\r\n    \"lastName\": \"Morales\",\r\n    \"username\": \"Jalex6\",\r\n    \"password\":\"1234\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"admin\",\r\n    \"lastName\": \"admin\",\r\n    \"username\": \"admin\",\r\n    \"password\":\"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -194,7 +194,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Javier\",\r\n    \"lastName\": \"Morales\",\r\n    \"password\": \"12345\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Javier\",\r\n    \"lastName\": \"Morales\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -214,7 +214,7 @@
 							"variable": [
 								{
 									"key": "username",
-									"value": "Jalex"
+									"value": "admin"
 								}
 							]
 						}
@@ -239,8 +239,153 @@
 							"variable": [
 								{
 									"key": "username",
-									"value": "Jalex6"
+									"value": "jalex"
 								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/login",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movements",
+			"item": [
+				{
+					"name": "listMovements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/movements",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"movements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listInMovements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/movements/in",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"movements",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listOutMovements",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/movements/out",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"movements",
+								"out"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMovement",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/movements/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"movements",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createMovement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"movement_type\": \"IN\",\r\n    \"id_product\": 9,\r\n    \"quantity\": 2.00\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/movements",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"movements"
 							]
 						}
 					},
