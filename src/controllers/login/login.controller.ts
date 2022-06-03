@@ -19,9 +19,7 @@ class LoginController extends Controller implements IController {
     this.router.post(
       "/",
       [
-        body("username")
-          .notEmpty()
-          .withMessage("El nombre de usuario es requerido"),
+        body("email").notEmpty().withMessage("El email es requerido"),
         body("password").notEmpty().withMessage("La contraseña es requerida"),
         body("password")
           .isLength({ min: 6 })

@@ -53,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"barcode\": \"1234567891q\",\r\n    \"description\": \"Producto de prueba\",\r\n    \"stock\": 10,\r\n    \"category\": \"Prueba\"\r\n    \r\n}",
+							"raw": "{\r\n    \"barcode\": \"1234567891q\",\r\n    \"description\": \"Producto de prueba\",\r\n    \"stock\": 10,\r\n    \"category\": \"Prueba\",\r\n    \"id_company\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -141,19 +141,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{SERVER}}/api/users/:username",
+							"raw": "{{HOST}}/api/users/:email",
 							"host": [
-								"{{SERVER}}"
+								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":username"
+								":email"
 							],
 							"variable": [
 								{
-									"key": "username",
-									"value": "Jalex"
+									"key": "email",
+									"value": "javiermoralesmelara@gmail.com"
 								}
 							]
 						}
@@ -167,7 +167,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"admin\",\r\n    \"lastName\": \"admin\",\r\n    \"username\": \"admin\",\r\n    \"password\":\"123456\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Javier Alexander\",\r\n    \"lastName\": \"Morales Melara\",\r\n    \"email\": \"javiermoralesmelara@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -202,19 +202,19 @@
 							}
 						},
 						"url": {
-							"raw": "{{HOST}}/api/users/:username",
+							"raw": "{{HOST}}/api/users/:email",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":username"
+								":email"
 							],
 							"variable": [
 								{
-									"key": "username",
-									"value": "admin"
+									"key": "email",
+									"value": "javiermoralesmelara@gmil.com"
 								}
 							]
 						}
@@ -227,20 +227,39 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/users/:username",
+							"raw": "{{HOST}}/api/users/:email",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"users",
-								":username"
+								":email"
 							],
 							"variable": [
 								{
-									"key": "username",
-									"value": "jalex"
+									"key": "email",
+									"value": null
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listUserCompanies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/users/companies",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"companies"
 							]
 						}
 					},
@@ -258,7 +277,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"email\": \"javiermoralesmelara@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -386,6 +405,140 @@
 							"path": [
 								"api",
 								"movements"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Companies",
+			"item": [
+				{
+					"name": "listCompanies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/companies",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listOneCompany",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/companies/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"companies",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCompany",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Súper Selectos\",\r\n    \"ruc\": \"AKDIG1298981023FG\",\r\n    \"address\": \"Carretera Panamericana #483, San Miguel, El Salvador\",\r\n    \"phone\": \"(+503) 7894-0944\",\r\n    \"email\": \"sselectos.sm@grupocallejas.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/companies",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCompany",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Súper Selectos\",\r\n    \"ruc\": \"AKDIG1298981023FG\",\r\n    \"address\": \"Carretera Panamericana #482, San Miguel, El Salvador\",\r\n    \"phone\": \"(+503) 7894-0944\",\r\n    \"email\": \"sselectos.sm@grupocallejas.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST}}/api/companies/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"companies",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCompany",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/companies/:id",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"companies",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "4"
+								}
 							]
 						}
 					},

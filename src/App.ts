@@ -3,7 +3,8 @@ import EnvironmentVariable from "./helpers/EnvironmentVariable";
 import ProductController from "./controllers/product/product.controller";
 import MovementController from "./controllers/movement/movement.controller";
 import UserController from "./controllers/user/user.controller";
-import loginController from "./controllers/login/login.controller";
+import LoginController from "./controllers/login/login.controller";
+import CompanyController from "./controllers/company/company.controller";
 
 class App {
   // app de express
@@ -27,7 +28,8 @@ class App {
     this.app.use("/api/products", ProductController);
     this.app.use("/api/movements", MovementController);
     this.app.use("/api/users", UserController);
-    this.app.use("/api/login", loginController);
+    this.app.use("/api/login", LoginController);
+    this.app.use("/api/companies", CompanyController);
   }
 
   // Correr el servidor

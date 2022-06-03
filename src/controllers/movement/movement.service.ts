@@ -123,7 +123,7 @@ class MovementService {
       // Get the params from the url
       const { id } = req.params;
       // Make a query to the database and delete the movement
-      const movement = await _DB.query("DELETE FROM movements WHERE id = $1", [
+      const movement = await _DB.query("DELETE FROM movements WHERE id = $1 RETURNING *", [
         id,
       ]);
       // If the movement was not deleted

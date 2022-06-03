@@ -16,17 +16,17 @@ class UserController extends Controller implements IController {
   public routes(): void {
     // GET /api/users/
     this.router.get("/", UserService.getUsers);
-    // GET /api/users/:username
-    this.router.get("/:username", UserService.getUser);
+    // GET /api/users/companies
+    this.router.get("/companies", UserService.getUserCompanies);
+    // GET /api/users/:email
+    this.router.get("/:email", UserService.getUser);
     // POST /api/users/
     this.router.post(
       "/",
       [
         body("firstName").notEmpty().withMessage("El nombre es requerido"),
         body("lastName").notEmpty().withMessage("El apellido es requerido"),
-        body("username")
-          .notEmpty()
-          .withMessage("El nombre de usuario es requerido"),
+        body("email").isEmail().withMessage("El email es requerido"),
         body("password").notEmpty().withMessage("La contraseña es requerida"),
         body("password")
           .isLength({ min: 6 })
@@ -34,9 +34,9 @@ class UserController extends Controller implements IController {
       ],
       UserService.createUser
     );
-    // PUT /api/users/:username
+    // PUT /api/users/:email
     this.router.put(
-      "/:username",
+      "/:email",
       [
         body("firstName").notEmpty().withMessage("El nombre es requerido"),
         body("lastName").notEmpty().withMessage("El apellido es requerido"),
@@ -44,8 +44,8 @@ class UserController extends Controller implements IController {
       ],
       UserService.updateUser
     );
-    // DELETE /api/users/:username
-    this.router.delete("/:username", UserService.deleteUser);
+    // DELETE /api/users/:email
+    this.router.delete("/:email", UserService.deleteUser);
   }
 }
 
