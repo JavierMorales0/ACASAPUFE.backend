@@ -188,18 +188,20 @@ class ProductService {
         stock,
         category,
         min_stock,
+        measure,
         is_available,
         id_company,
       } = req.body;
       // Make a query to the DB and get the user
       const response = await _DB.query(
-        "INSERT INTO products (barcode, description, stock, category, min_stock, is_available, id_company) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        "INSERT INTO products (barcode, description, stock, category, min_stock, measure, is_available, id_company) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
         [
           barcode,
           description,
           stock,
           category,
           min_stock ?? 0.0,
+          measure ?? '',
           is_available ?? true,
           id_company,
         ]
@@ -223,10 +225,11 @@ class ProductService {
     try {
       // Get the request params data
       const { id } = req.params;
+      const company = 5;
       // Make a query to the DB and delete the product
       const response = await _DB.query(
-        "DELETE FROM products WHERE id = $1 RETURNING *",
-        [id]
+        "DELETE FROM products WHERE barcode = $1 AND id_company = $2 RETURNING *",
+        [id, company]
       );
       // If there is not a product with this id
       if (response.rowCount === 0) {

@@ -92,11 +92,25 @@ class MovementService {
         );
       }
       // Get the params from the body
-      const { movement_type, id_product, quantity, description } = req.body;
+      const {
+        movement_type,
+        barcode_product,
+        id_company,
+        quantity,
+        description,
+        id_tag,
+      } = req.body;
       // Make a query to the database and create the movement
       const response = await _DB.query(
-        "INSERT INTO movements (movement_type, id_product, quantity, description) VALUES ($1, $2, $3, $4) RETURNING *",
-        [movement_type, id_product, quantity, description || ""]
+        "INSERT INTO movements (movement_type, barcode_product, id_company, quantity, description, id_tag) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+        [
+          movement_type,
+          barcode_product,
+          id_company,
+          quantity,
+          description || "",
+          id_tag,
+        ]
       );
       // Call the helper function to return the response
       return ServerResponse.success(
@@ -123,9 +137,10 @@ class MovementService {
       // Get the params from the url
       const { id } = req.params;
       // Make a query to the database and delete the movement
-      const movement = await _DB.query("DELETE FROM movements WHERE id = $1 RETURNING *", [
-        id,
-      ]);
+      const movement = await _DB.query(
+        "DELETE FROM movements WHERE id = $1 RETURNING *",
+        [id]
+      );
       // If the movement was not deleted
       if (movement.rowCount === 0) {
         return ServerResponse.error(

@@ -52,18 +52,20 @@ CREATE TABLE tags (
 -- CREAR TABLA DE MOVIMIENTOS
 CREATE TABLE movements (
   id serial NOT NULL,
-  movement_date date DEFAULT current_date,
+  movement_date date DEFAULT now(),
   movement_type character varying(3) NOT NULL,
   barcode_product varchar(50) NOT NULL,
   id_company integer NOT NULL,
   quantity numeric(10, 2) NOT NULL,
-  description varchar(100) NOT NULL,
+  description varchar(255) DEFAULT '',
   id_tag integer NOT NULL,
   PRIMARY KEY (id , movement_date),
   CONSTRAINT fk_product FOREIGN KEY (barcode_product , id_company) REFERENCES products (barcode , id_company) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT fk_company FOREIGN KEY (id_company) REFERENCES companies (id) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT fk_tag FOREIGN KEY (id_tag) REFERENCES tags (id) ON UPDATE CASCADE ON DELETE CASCADE
   );
+-- change default on table movements on column movement_date to now()
+  alter table movements alter column movement_date set default now();
 
 
 /* CREAR TRIGGER PARA QUE DESPUES DE INSERTAR UN MOVIMIENTO, EVALUE EL RESTO DE MOVIMIENTOS

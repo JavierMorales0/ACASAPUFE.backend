@@ -29,16 +29,15 @@ class MovementController extends Controller implements IController {
       body("movement_type")
         .matches(/^(IN|OUT)$/)
         .withMessage("El tipo de movimiento debe ser IN o OUT"),
-      body("id_product")
+      body("barcode_product")
         .notEmpty()
-        .withMessage("El id del producto es requerido"),
-      body("id_product")
-        .isInt()
-        .withMessage("El id del producto debe ser un número entero"),
+        .withMessage("El código de barras es requerido"),
+      body("id_company").isInt().withMessage("La empresa es requerida"),
       body("quantity").notEmpty().withMessage("La cantidad es requerida"),
       body("quantity")
         .isDecimal()
         .withMessage("La cantidad debe ser un número decimal"),
+      body("id_tag").isInt().withMessage("El tag es requerido"),
       MovementService.createMovement
     );
     // DELETE /api/movements/:id
