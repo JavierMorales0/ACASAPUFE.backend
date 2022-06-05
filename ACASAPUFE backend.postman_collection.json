@@ -53,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"barcode\": \"1234567891q\",\r\n    \"description\": \"Producto de prueba\",\r\n    \"stock\": 10,\r\n    \"category\": \"Prueba\",\r\n    \"id_company\": 1\r\n}",
+							"raw": "{\r\n    \"barcode\": \"12345678\",\r\n    \"description\": \"Producto de prueba\",\r\n    \"stock\": 10,\r\n    \"category\": \"Prueba\",\r\n    \"measure\": \"litros\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -79,14 +79,20 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/8",
+							"raw": "{{HOST}}/api/products/:barcode",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products",
-								"8"
+								":barcode"
+							],
+							"variable": [
+								{
+									"key": "barcode",
+									"value": "1234567"
+								}
 							]
 						}
 					},
@@ -98,14 +104,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{HOST}}/api/products/789829342234432",
+							"raw": "{{HOST}}/api/products/:id",
 							"host": [
 								"{{HOST}}"
 							],
 							"path": [
 								"api",
 								"products",
-								"789829342234432"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1234567"
+								}
 							]
 						}
 					},
@@ -167,7 +179,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Javier Alexander\",\r\n    \"lastName\": \"Morales Melara\",\r\n    \"email\": \"javiermoralesmelara@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Mauricio Alexander\",\r\n    \"lastName\": \"Morales Melara\",\r\n    \"email\": \"mauriciomoralesmelara@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -277,7 +289,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"javiermoralesmelara@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"email\": \"mauriciomoralesmelara@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -390,7 +402,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"movement_type\": \"IN\",\r\n    \"id_product\": 9,\r\n    \"quantity\": 2.00\r\n\r\n}",
+							"raw": "{\r\n    \"movement_type\": \"IN\",\r\n    \"quantity\": 45.00,\r\n    \"barcode_product\": \"12345678\",\r\n    \"id_tag\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -451,7 +463,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "5"
 								}
 							]
 						}
@@ -465,7 +477,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Súper Selectos\",\r\n    \"ruc\": \"AKDIG1298981023FG\",\r\n    \"address\": \"Carretera Panamericana #483, San Miguel, El Salvador\",\r\n    \"phone\": \"(+503) 7894-0944\",\r\n    \"email\": \"sselectos.sm@grupocallejas.com\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Almacenes Vidri\",\r\n    \"ruc\": \"AKDIG1298981023FL\",\r\n    \"address\": \"Carretera Panamericana #483, San Miguel, El Salvador\",\r\n    \"phone\": \"(+503) 7894-0945\",\r\n    \"email\": \"vidri@vidri.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -537,7 +549,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "4"
+									"value": "5"
 								}
 							]
 						}
@@ -547,6 +559,16 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJmaXJzdF9uYW1lIjoiTWF1cmljaW8gQWxleGFuZGVyIiwibGFzdF9uYW1lIjoiTW9yYWxlcyBNZWxhcmEiLCJlbWFpbCI6Im1hdXJpY2lvbW9yYWxlc21lbGFyYUBnbWFpbC5jb20iLCJwYXNzIjoiJDJiJDEwJGo0SENuSlpydThDcFUySWN6Lkk3Sy5xbUZTeVM0RDZuMmNBY2V3MjNlQjU3YTlLdGhQVTlLIiwiaXNfYWN0aXZlIjp0cnVlfSwiY29tcGFueSI6eyJpZCI6OCwibmFtZSI6IkFsbWFjZW5lcyBWaWRyaSIsInJ1YyI6IkFLRElHMTI5ODk4MTAyM0ZMIiwiYWRkcmVzcyI6IkNhcnJldGVyYSBQYW5hbWVyaWNhbmEgIzQ4MywgU2FuIE1pZ3VlbCwgRWwgU2FsdmFkb3IiLCJwaG9uZSI6IigrNTAzKSA3ODk0LTA5NDUiLCJlbWFpbCI6InZpZHJpQHZpZHJpLmNvbSIsImlkX3VzZXIiOjN9LCJpYXQiOjE2NTQ0NzA3NzAsImV4cCI6MTY1NzA2Mjc3MH0.uQuwYNTLBY3IqGLFVwC6q54odLPInHvF1MWz6gcjWyg",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
