@@ -10,7 +10,8 @@ class ProductService {
     try {
       // Make a query to the DB and get the products
       const response = await _DB.query(
-        "SELECT * FROM products WHERE is_available = true"
+        "SELECT * FROM products WHERE is_available = true AND id_company = $1",
+        [req.token!.company.id]
       );
       // Call the helper function to return the response
       return ServerResponse.success(
@@ -35,85 +36,10 @@ class ProductService {
   public async getAllProducts(req: Request, res: Response) {
     try {
       // Make a query to the DB and get the products
-      const response = await _DB.query("SELECT * FROM products");
-      // Call the helper function to return the response
-      return ServerResponse.success(
-        "Listado de productos",
-        200,
-        response.rows,
-        res
-      );
-    } catch (error) {
-      // Call the helper function to return the response
-      return ServerResponse.error(
-        "Error al obtener los productos",
-        500,
-        error,
-        res
-      );
-    }
-  }
-
-  /**
-   * Obtiene los productos de una sola empresa
-   */
-  public async getProductsByCompany(req: Request, res: Response) {
-    try {
-      // Get the request params data
-      const { id } = req.params;
-      // Make a query to the DB and get the products
       const response = await _DB.query(
-        "SELECT * FROM products WHERE company_id = $1 WHERE is_available = true",
-        [id]
+        "SELECT * FROM products WHERE id_company = $1",
+        [req.token!.company.id]
       );
-      // If there is not a product with this id
-      if (response.rowCount === 0) {
-        return ServerResponse.error(
-          "No se encontro ningun producto con este id de compañia",
-          404,
-          null,
-          res
-        );
-      }
-      // Call the helper function to return the response
-      return ServerResponse.success(
-        "Listado de productos",
-        200,
-        response.rows,
-        res
-      );
-    } catch (error) {
-      // Call the helper function to return the response
-      return ServerResponse.error(
-        "Error al obtener los productos",
-        500,
-        error,
-        res
-      );
-    }
-  }
-
-  /**
-   * Obtiene todos los productos de una empresa
-   */
-  public async getAllProductsByCompany(req: Request, res: Response) {
-    try {
-      // Get the request params data
-      const { id } = req.params;
-      // Make a query to the DB and get the products
-      const response = await _DB.query(
-        "SELECT * FROM products WHERE company_id = $1",
-        [id]
-      );
-      // If there is not a product with this id
-      if (response.rowCount === 0) {
-        return ServerResponse.error(
-          "No se encontro ningun producto con este id de compañia",
-          404,
-          null,
-          res
-        );
-      }
       // Call the helper function to return the response
       return ServerResponse.success(
         "Listado de productos",
@@ -137,12 +63,12 @@ class ProductService {
    * */
   public async getProductByBarCode(req: Request, res: Response) {
     try {
-      // Get the request body data
-      const { barcode } = req.body;
+      // Get the request params data
+      const { barcode } = req.params;
       // Make a query to the DB and get the product with this barcode
       const response = await _DB.query(
-        "SELECT * FROM products WHERE barcode = $1",
-        [barcode]
+        "SELECT * FROM products WHERE barcode = $1 AND id_company = $2",
+        [barcode, req.token!.company.id]
       );
       // If there is not a product with this barcode
       if (response.rowCount === 0) {
@@ -190,8 +116,8 @@ class ProductService {
         min_stock,
         measure,
         is_available,
-        id_company,
       } = req.body;
+
       // Make a query to the DB and get the user
       const response = await _DB.query(
         "INSERT INTO products (barcode, description, stock, category, min_stock, measure, is_available, id_company) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
@@ -201,9 +127,9 @@ class ProductService {
           stock,
           category,
           min_stock ?? 0.0,
-          measure ?? '',
+          measure ?? "",
           is_available ?? true,
-          id_company,
+          req.token!.company.id,
         ]
       );
       // Call the helper function to return the response
@@ -225,7 +151,8 @@ class ProductService {
     try {
       // Get the request params data
       const { id } = req.params;
-      const company = 5;
+      // Set the company id by the token
+      const company = req.token!.company.id;
       // Make a query to the DB and delete the product
       const response = await _DB.query(
         "DELETE FROM products WHERE barcode = $1 AND id_company = $2 RETURNING *",

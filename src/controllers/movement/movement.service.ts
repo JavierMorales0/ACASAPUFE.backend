@@ -10,7 +10,8 @@ class MovementService {
   public async getMovements(req: Request, res: Response) {
     try {
       const movements = await _DB.query(
-        "SELECT * FROM movements ORDER BY id DESC"
+        "SELECT * FROM movements WHERE id_company = $1 ORDER BY id DESC",
+        [req.token!.company.id]
       );
       return ServerResponse.success(
         "Listado de movimientos",
@@ -34,7 +35,8 @@ class MovementService {
   public async getInMovements(req: Request, res: Response) {
     try {
       const movements = await _DB.query(
-        "SELECT * FROM movements WHERE movement_type = 'IN' ORDER BY id DESC"
+        "SELECT * FROM movements WHERE movement_type = 'IN' AND id_company = $1 ORDER BY id DESC",
+        [req.token!.company.id]
       );
       return ServerResponse.success(
         "Listado de movimientos de carga",
@@ -58,7 +60,8 @@ class MovementService {
   public async getOutMovements(req: Request, res: Response) {
     try {
       const movements = await _DB.query(
-        "SELECT * FROM movements WHERE movement_type = 'OUT' ORDER BY id DESC"
+        "SELECT * FROM movements WHERE movement_type = 'OUT' AND id_company = $1 ORDER BY id DESC",
+        [req.token!.company.id]
       );
       return ServerResponse.success(
         "Listado de movimientos de descarga",
@@ -92,14 +95,9 @@ class MovementService {
         );
       }
       // Get the params from the body
-      const {
-        movement_type,
-        barcode_product,
-        id_company,
-        quantity,
-        description,
-        id_tag,
-      } = req.body;
+      const { movement_type, barcode_product, quantity, description, id_tag } =
+        req.body;
+      const id_company = req.token!.company.id;
       // Make a query to the database and create the movement
       const response = await _DB.query(
         "INSERT INTO movements (movement_type, barcode_product, id_company, quantity, description, id_tag) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
@@ -138,8 +136,8 @@ class MovementService {
       const { id } = req.params;
       // Make a query to the database and delete the movement
       const movement = await _DB.query(
-        "DELETE FROM movements WHERE id = $1 RETURNING *",
-        [id]
+        "DELETE FROM movements WHERE id = $1 AND id_company = $2 RETURNING *",
+        [id, req.token!.company.id]
       );
       // If the movement was not deleted
       if (movement.rowCount === 0) {

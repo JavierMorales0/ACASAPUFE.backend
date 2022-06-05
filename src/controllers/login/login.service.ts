@@ -65,8 +65,19 @@ class LoginService {
           res
         );
       }
-      //Generate the token with the user data
-      const token = Token.generateToken(user);
+      // Get the company related to the user
+      let company = await _DB.query(
+        "SELECT * FROM companies WHERE id_user = $1",
+        [user.id]
+      );
+      // If there is a company related to the user
+      if (company.rowCount > 0) {
+        company = ArrayToObject(company.rows);
+      } else {
+        company = null;
+      }
+      //Generate the token with the user data and the company related
+      const token = Token.generateToken({ user, company });
       // Call the helper function to return the response
       return ServerResponse.success(
         "Login con éxito",

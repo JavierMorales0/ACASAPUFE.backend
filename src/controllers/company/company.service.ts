@@ -9,7 +9,10 @@ class CompanyService {
   public async getCompanies(req: Request, res: Response) {
     try {
       // Make a query to the DB and get all the companies
-      const data = await _DB.query("SELECT * FROM companies");
+      const data = await _DB.query(
+        "SELECT * FROM companies WHERE id_user = $1",
+        [req.token!.user.id]
+      );
       // Call the helper function to return the response
       return ServerResponse.success("Obtener empresas", 200, data.rows, res);
     } catch (error: any) {
@@ -24,9 +27,10 @@ class CompanyService {
       // Get the id from the params
       const { id } = req.params;
       // Make a query to the DB and get the company
-      const data = await _DB.query("SELECT * FROM companies WHERE id = $1", [
-        id,
-      ]);
+      const data = await _DB.query(
+        "SELECT * FROM companies WHERE id = $1 AND id_user = $2",
+        [id, req.token!.user.id]
+      );
       // Verify if the company exists
       if (data.rowCount === 0) {
         // Call the helper function to return the response
@@ -61,10 +65,9 @@ class CompanyService {
         );
       }
       // Make a query to the DB and create the company
-      // TODO: Add the token payload to get the user id
       const data = await _DB.query(
-        "INSERT INTO companies (name, ruc, address, phone, email, id_user) VALUES ($1, $2, $3, $4, $5, 1) RETURNING *",
-        [name, ruc, address, phone, email]
+        "INSERT INTO companies (name, ruc, address, phone, email, id_user) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+        [name, ruc, address, phone, email, req.token!.user.id]
       );
       // Call the helper function to return the response
       return ServerResponse.success("Crear empresa", 201, data.rows[0], res);
@@ -130,7 +133,10 @@ class CompanyService {
       // Get the id from the params
       const { id } = req.params;
       // Make a query to the DB and delete the company
-      const data = await _DB.query("DELETE FROM companies WHERE id = $1 RETURNING *", [id]);
+      const data = await _DB.query(
+        "DELETE FROM companies WHERE id = $1 AND id_user = $2 RETURNING *",
+        [id, req.token!.user.id]
+      );
       // Verify if the company exists
       if (data.rowCount === 0) {
         // Call the helper function to return the response

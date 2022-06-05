@@ -3,6 +3,7 @@ import Controller from "../Controller";
 import MovementService from "./movement.service";
 import { Router } from "express";
 import { body } from "express-validator";
+import Auth from "../../middleware/Auth";
 
 class MovementController extends Controller implements IController {
   router: Router;
@@ -15,14 +16,31 @@ class MovementController extends Controller implements IController {
 
   public routes(): void {
     // GET /api/movements/
-    this.router.get("/", MovementService.getMovements);
+    this.router.get(
+      "/",
+      Auth.verifyToken,
+      Auth.verifyCompanyInToken,
+      MovementService.getMovements
+    );
     // GET /api/movements/in
-    this.router.get("/in", MovementService.getInMovements);
+    this.router.get(
+      "/in",
+      Auth.verifyToken,
+      Auth.verifyCompanyInToken,
+      MovementService.getInMovements
+    );
     // GET /api/movements/out
-    this.router.get("/out", MovementService.getOutMovements);
+    this.router.get(
+      "/out",
+      Auth.verifyToken,
+      Auth.verifyCompanyInToken,
+      MovementService.getOutMovements
+    );
     // POST /api/movements/
     this.router.post(
       "/",
+      Auth.verifyToken,
+      Auth.verifyCompanyInToken,
       body("movement_type")
         .notEmpty()
         .withMessage("El tipo de movimiento es requerido"),
@@ -32,7 +50,6 @@ class MovementController extends Controller implements IController {
       body("barcode_product")
         .notEmpty()
         .withMessage("El código de barras es requerido"),
-      body("id_company").isInt().withMessage("La empresa es requerida"),
       body("quantity").notEmpty().withMessage("La cantidad es requerida"),
       body("quantity")
         .isDecimal()
@@ -41,7 +58,12 @@ class MovementController extends Controller implements IController {
       MovementService.createMovement
     );
     // DELETE /api/movements/:id
-    this.router.delete("/:id", MovementService.deleteMovement);
+    this.router.delete(
+      "/:id",
+      Auth.verifyToken,
+      Auth.verifyCompanyInToken,
+      MovementService.deleteMovement
+    );
   }
 }
 

@@ -3,6 +3,7 @@ import UserService from "./user.service";
 import { body } from "express-validator";
 import IController from "../IController";
 import Controller from "../Controller";
+import Auth from "../../middleware/Auth";
 
 class UserController extends Controller implements IController {
   public router: Router;
@@ -15,11 +16,15 @@ class UserController extends Controller implements IController {
 
   public routes(): void {
     // GET /api/users/
-    this.router.get("/", UserService.getUsers);
+    this.router.get("/", Auth.verifyToken, UserService.getUsers);
     // GET /api/users/companies
-    this.router.get("/companies", UserService.getUserCompanies);
+    this.router.get(
+      "/companies",
+      Auth.verifyToken,
+      UserService.getUserCompanies
+    );
     // GET /api/users/:email
-    this.router.get("/:email", UserService.getUser);
+    this.router.get("/:email", Auth.verifyToken, UserService.getUser);
     // POST /api/users/
     this.router.post(
       "/",
@@ -37,6 +42,7 @@ class UserController extends Controller implements IController {
     // PUT /api/users/:email
     this.router.put(
       "/:email",
+      Auth.verifyToken,
       [
         body("firstName").notEmpty().withMessage("El nombre es requerido"),
         body("lastName").notEmpty().withMessage("El apellido es requerido"),
@@ -45,7 +51,7 @@ class UserController extends Controller implements IController {
       UserService.updateUser
     );
     // DELETE /api/users/:email
-    this.router.delete("/:email", UserService.deleteUser);
+    this.router.delete("/:email",Auth.verifyToken, UserService.deleteUser);
   }
 }
 
