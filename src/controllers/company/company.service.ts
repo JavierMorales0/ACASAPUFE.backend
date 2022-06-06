@@ -67,10 +67,10 @@ class CompanyService {
       // Make a query to the DB and create the company
       const data = await _DB.query(
         "INSERT INTO companies (name, ruc, address, phone, email, id_user) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
-        [name, ruc, address, phone, email, req.token!.user.id]
+        [name, ruc, address, phone, email, req.token!.id]
       );
       // Call the helper function to return the response
-      return ServerResponse.success("Crear empresa", 201, data.rows[0], res);
+      return ServerResponse.success("Crear empresa", 201, data.rows, res);
     } catch (error: any) {
       // Call the helper function to return the response
       return ServerResponse.error("Error al crear empresa", 500, error, res);

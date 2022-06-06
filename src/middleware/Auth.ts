@@ -49,7 +49,7 @@ class Auth {
         );
       }
       // Get the data from req.token
-      const company = req.token.company;
+      const company = req.token.company || null;
       // Verify if company is not null
       if (company === null) {
         return ServerResponse.error(
