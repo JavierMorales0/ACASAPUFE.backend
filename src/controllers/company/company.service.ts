@@ -9,9 +9,10 @@ class CompanyService {
   public async getCompanies(req: Request, res: Response) {
     try {
       // Make a query to the DB and get all the companies
+      console.log(req.token)
       const data = await _DB.query(
         "SELECT * FROM companies WHERE id_user = $1",
-        [req.token!.user.id]
+        [req.token!.id]
       );
       // Call the helper function to return the response
       return ServerResponse.success("Obtener empresas", 200, data.rows, res);
@@ -29,7 +30,7 @@ class CompanyService {
       // Make a query to the DB and get the company
       const data = await _DB.query(
         "SELECT * FROM companies WHERE id = $1 AND id_user = $2",
-        [id, req.token!.user.id]
+        [id, req.token!.id]
       );
       // Verify if the company exists
       if (data.rowCount === 0) {
@@ -135,7 +136,7 @@ class CompanyService {
       // Make a query to the DB and delete the company
       const data = await _DB.query(
         "DELETE FROM companies WHERE id = $1 AND id_user = $2 RETURNING *",
-        [id, req.token!.user.id]
+        [id, req.token!.id]
       );
       // Verify if the company exists
       if (data.rowCount === 0) {

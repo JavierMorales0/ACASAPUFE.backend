@@ -72,12 +72,12 @@ class LoginService {
       );
       // If there is a company related to the user
       if (company.rowCount > 0) {
-        company = ArrayToObject(company.rows);
+        user.company = ArrayToObject(company.rows);
       } else {
-        company = null;
+        user.company = null;
       }
       //Generate the token with the user data and the company related
-      const token = Token.generateToken({ user, company });
+      const token = Token.generateToken(user);
       // Call the helper function to return the response
       return ServerResponse.success(
         "Login con éxito",
