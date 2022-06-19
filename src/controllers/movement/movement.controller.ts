@@ -16,31 +16,15 @@ class MovementController extends Controller implements IController {
 
   public routes(): void {
     // GET /api/movements/
-    this.router.get(
-      "/",
-      Auth.verifyToken,
-      Auth.verifyCompanyInToken,
-      MovementService.getMovements
-    );
+    this.router.get("/", Auth.verifyToken, MovementService.getMovements);
     // GET /api/movements/in
-    this.router.get(
-      "/in",
-      Auth.verifyToken,
-      Auth.verifyCompanyInToken,
-      MovementService.getInMovements
-    );
+    this.router.get("/in", Auth.verifyToken, MovementService.getInMovements);
     // GET /api/movements/out
-    this.router.get(
-      "/out",
-      Auth.verifyToken,
-      Auth.verifyCompanyInToken,
-      MovementService.getOutMovements
-    );
+    this.router.get("/out", Auth.verifyToken, MovementService.getOutMovements);
     // POST /api/movements/
     this.router.post(
       "/",
       Auth.verifyToken,
-      Auth.verifyCompanyInToken,
       body("movement_type")
         .notEmpty()
         .withMessage("El tipo de movimiento es requerido"),
@@ -61,7 +45,6 @@ class MovementController extends Controller implements IController {
     this.router.delete(
       "/:id",
       Auth.verifyToken,
-      Auth.verifyCompanyInToken,
       MovementService.deleteMovement
     );
   }

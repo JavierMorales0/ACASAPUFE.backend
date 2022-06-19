@@ -32,45 +32,6 @@ class Auth {
       );
     }
   }
-
-  public async verifyCompanyInToken(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) {
-    try {
-      // Verify if exists req.token
-      if (!req.token) {
-        return ServerResponse.error(
-          "Error al verificar el token",
-          401,
-          "No se ha enviado el token",
-          res
-        );
-      }
-      // Get the data from req.token
-      const company = req.token.company || null;
-      // Verify if company is not null
-      if (company === null) {
-        return ServerResponse.error(
-          "Error al verificar datos de empresa en token",
-          401,
-          "No existe una empresa relacionada a su sesión. Por favor cree una empresa" +
-            " para acceder a esta sección o si ya posee una inicie sesión nuevamente",
-          res
-        );
-      }
-      next();
-    } catch (error) {
-      // Call the helper function to return the response
-      return ServerResponse.error(
-        "Error al verificar los datos de empresa en token",
-        500,
-        error,
-        res
-      );
-    }
-  }
 }
 
 export default new Auth();

@@ -18,28 +18,24 @@ class ProductController extends Controller implements IController {
     this.router.get(
       "/",
       Auth.verifyToken,
-      Auth.verifyCompanyInToken,
       ProductService.getProducts
     );
     // GET /api/products/all
     this.router.get(
       "/all",
       Auth.verifyToken,
-      Auth.verifyCompanyInToken,
       ProductService.getAllProducts
     );
     // GET /api/products/:id
     this.router.get(
       "/:barcode",
       Auth.verifyToken,
-      Auth.verifyCompanyInToken,
       ProductService.getProductByBarCode
     );
     // POST /api/products/
     this.router.post(
       "/",
       Auth.verifyToken,
-      Auth.verifyCompanyInToken,
       body("barcode").notEmpty().withMessage("Código de barras es requerido"),
       body("description").notEmpty().withMessage("Descripción es requerida"),
       body("stock").notEmpty().withMessage("Stock es requerido"),
@@ -51,7 +47,6 @@ class ProductController extends Controller implements IController {
     this.router.delete(
       "/:id",
       Auth.verifyToken,
-      Auth.verifyCompanyInToken,
       ProductService.deleteProduct
     );
   }

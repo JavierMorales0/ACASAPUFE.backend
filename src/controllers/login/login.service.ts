@@ -30,7 +30,6 @@ class LoginService {
       const data = await _DB.query("SELECT * FROM users WHERE email = $1", [
         email,
       ]);
-
       // If there is not a user with the email and password
       if (data.rowCount === 0) {
         // Call the helper function to return the response
@@ -65,18 +64,7 @@ class LoginService {
           res
         );
       }
-      // Get the company related to the user
-      let company = await _DB.query(
-        "SELECT * FROM companies WHERE id_user = $1",
-        [user.id]
-      );
-      // If there is a company related to the user
-      if (company.rowCount > 0) {
-        user.company = ArrayToObject(company.rows);
-      } else {
-        user.company = null;
-      }
-      //Generate the token with the user data and the company related
+      //Generate the token with the user data
       const token = Token.generateToken(user);
       // Call the helper function to return the response
       return ServerResponse.success(

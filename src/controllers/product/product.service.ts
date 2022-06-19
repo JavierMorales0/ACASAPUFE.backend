@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import _DB from "../../db/PostgreSqlConnection";
+import ArrayToObject from "../../helpers/ArrayToObject";
 import ServerResponse from "../../helpers/ServerResponse";
 class ProductService {
   /**
@@ -8,10 +9,23 @@ class ProductService {
    */
   public async getProducts(req: Request, res: Response) {
     try {
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       // Make a query to the DB and get the products
       const response = await _DB.query(
         "SELECT * FROM products WHERE is_available = true AND id_company = $1",
-        [req.token!.company.id]
+        [company.id]
       );
       // Call the helper function to return the response
       return ServerResponse.success(
@@ -35,10 +49,23 @@ class ProductService {
    */
   public async getAllProducts(req: Request, res: Response) {
     try {
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       // Make a query to the DB and get the products
       const response = await _DB.query(
         "SELECT * FROM products WHERE id_company = $1",
-        [req.token!.company.id]
+        [company.id]
       );
       // Call the helper function to return the response
       return ServerResponse.success(
@@ -65,10 +92,23 @@ class ProductService {
     try {
       // Get the request params data
       const { barcode } = req.params;
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       // Make a query to the DB and get the product with this barcode
       const response = await _DB.query(
         "SELECT * FROM products WHERE barcode = $1 AND id_company = $2",
-        [barcode, req.token!.company.id]
+        [barcode, company.id]
       );
       // If there is not a product with this barcode
       if (response.rowCount === 0) {
@@ -102,6 +142,19 @@ class ProductService {
    */
   public async createProduct(req: Request, res: Response) {
     try {
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       // Verify if there are errors
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -129,7 +182,7 @@ class ProductService {
           min_stock ?? 0.0,
           measure ?? "",
           is_available ?? true,
-          req.token!.company.id,
+          company.id,
         ]
       );
       // Call the helper function to return the response
@@ -151,12 +204,24 @@ class ProductService {
     try {
       // Get the request params data
       const { id } = req.params;
-      // Set the company id by the token
-      const company = req.token!.company.id;
+      // Get the company
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       // Make a query to the DB and delete the product
       const response = await _DB.query(
         "DELETE FROM products WHERE barcode = $1 AND id_company = $2 RETURNING *",
-        [id, company]
+        [id, company.id]
       );
       // If there is not a product with this id
       if (response.rowCount === 0) {

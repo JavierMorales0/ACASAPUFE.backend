@@ -10,14 +10,22 @@ class MovementService {
    */
   public async getMovements(req: Request, res: Response) {
     try {
-      const company = await _DB.query(
+      const companiesArrayFromDb = await _DB.query(
         "SELECT id FROM companies WHERE id_user = $1",
         [req.token!.id]
       );
-      console.log(company);
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       const movements = await _DB.query(
         "SELECT * FROM movements WHERE id_company = $1 ORDER BY id DESC",
-        [company.rows[0].id]
+        [company.id]
       );
       return ServerResponse.success(
         "Listado de movimientos",
@@ -40,9 +48,22 @@ class MovementService {
    */
   public async getInMovements(req: Request, res: Response) {
     try {
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       const movements = await _DB.query(
         "SELECT * FROM movements WHERE movement_type = 'IN' AND id_company = $1 ORDER BY id DESC",
-        [req.token!.company.id]
+        [company.id]
       );
       return ServerResponse.success(
         "Listado de movimientos de carga",
@@ -65,9 +86,22 @@ class MovementService {
    */
   public async getOutMovements(req: Request, res: Response) {
     try {
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       const movements = await _DB.query(
         "SELECT * FROM movements WHERE movement_type = 'OUT' AND id_company = $1 ORDER BY id DESC",
-        [req.token!.company.id]
+        [company.id]
       );
       return ServerResponse.success(
         "Listado de movimientos de descarga",
@@ -103,14 +137,26 @@ class MovementService {
       // Get the params from the body
       const { movement_type, barcode_product, quantity, description, id_tag } =
         req.body;
-      const id_company = req.token!.company.id;
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       // Make a query to the database and create the movement
       const response = await _DB.query(
         "INSERT INTO movements (movement_type, barcode_product, id_company, quantity, description, id_tag) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
         [
           movement_type,
           barcode_product,
-          id_company,
+          company.id,
           quantity,
           description || "",
           id_tag,
@@ -140,10 +186,23 @@ class MovementService {
     try {
       // Get the params from the url
       const { id } = req.params;
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
       // Make a query to the database and delete the movement
       const movement = await _DB.query(
         "DELETE FROM movements WHERE id = $1 AND id_company = $2 RETURNING *",
-        [id, req.token!.company.id]
+        [id, company.id]
       );
       // If the movement was not deleted
       if (movement.rowCount === 0) {
