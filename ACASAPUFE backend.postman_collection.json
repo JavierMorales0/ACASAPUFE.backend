@@ -179,7 +179,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Mauricio Alexander\",\r\n    \"lastName\": \"Morales Melara\",\r\n    \"email\": \"mauriciomoralesmelara@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Edgar Alexander\",\r\n    \"lastName\": \"Morales Melara\",\r\n    \"email\": \"edmoralesmelara@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -477,7 +477,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Almacenes Vidri\",\r\n    \"ruc\": \"AKDIG1298981023FL\",\r\n    \"address\": \"Carretera Panamericana #483, San Miguel, El Salvador\",\r\n    \"phone\": \"(+503) 7894-0945\",\r\n    \"email\": \"vidri@vidri.com\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Almacenes Vidri 2\",\r\n    \"ruc\": \"AKDIG1298981023FP\",\r\n    \"address\": \"Carretera Panamericana #483, San Miguel, El Salvador\",\r\n    \"phone\": \"(+503) 7894-0945\",\r\n    \"email\": \"vidri2@vidri.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -549,7 +549,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "5"
+									"value": "8"
 								}
 							]
 						}
@@ -564,7 +564,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjozLCJmaXJzdF9uYW1lIjoiTWF1cmljaW8gQWxleGFuZGVyIiwibGFzdF9uYW1lIjoiTW9yYWxlcyBNZWxhcmEiLCJlbWFpbCI6Im1hdXJpY2lvbW9yYWxlc21lbGFyYUBnbWFpbC5jb20iLCJwYXNzIjoiJDJiJDEwJGo0SENuSlpydThDcFUySWN6Lkk3Sy5xbUZTeVM0RDZuMmNBY2V3MjNlQjU3YTlLdGhQVTlLIiwiaXNfYWN0aXZlIjp0cnVlfSwiY29tcGFueSI6eyJpZCI6OCwibmFtZSI6IkFsbWFjZW5lcyBWaWRyaSIsInJ1YyI6IkFLRElHMTI5ODk4MTAyM0ZMIiwiYWRkcmVzcyI6IkNhcnJldGVyYSBQYW5hbWVyaWNhbmEgIzQ4MywgU2FuIE1pZ3VlbCwgRWwgU2FsdmFkb3IiLCJwaG9uZSI6IigrNTAzKSA3ODk0LTA5NDUiLCJlbWFpbCI6InZpZHJpQHZpZHJpLmNvbSIsImlkX3VzZXIiOjN9LCJpYXQiOjE2NTQ0NzA3NzAsImV4cCI6MTY1NzA2Mjc3MH0.uQuwYNTLBY3IqGLFVwC6q54odLPInHvF1MWz6gcjWyg",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZmlyc3RfbmFtZSI6Ik1hdXJpY2lvIEFsZXhhbmRlciIsImxhc3RfbmFtZSI6Ik1vcmFsZXMgTWVsYXJhIiwiZW1haWwiOiJtYXVyaWNpb21vcmFsZXNtZWxhcmFAZ21haWwuY29tIiwicGFzcyI6IiQyYiQxMCRqNEhDbkpacnU4Q3BVMkljei5JN0sucW1GU3lTNEQ2bjJjQWNldzIzZUI1N2E5S3RoUFU5SyIsImlzX2FjdGl2ZSI6dHJ1ZSwiY29tcGFueSI6eyJpZCI6OCwibmFtZSI6IkFsbWFjZW5lcyBWaWRyaSIsInJ1YyI6IkFLRElHMTI5ODk4MTAyM0ZMIiwiYWRkcmVzcyI6IkNhcnJldGVyYSBQYW5hbWVyaWNhbmEgIzQ4MywgU2FuIE1pZ3VlbCwgRWwgU2FsdmFkb3IiLCJwaG9uZSI6IigrNTAzKSA3ODk0LTA5NDUiLCJlbWFpbCI6InZpZHJpQHZpZHJpLmNvbSIsImlkX3VzZXIiOjN9LCJpYXQiOjE2NTU0MjQwMjAsImV4cCI6MTY1ODAxNjAyMH0.ShUpxgPvOM8cN3bKav-tFU8B8CE1Lc4JjFkZmTYJB7U",
 				"type": "string"
 			}
 		]

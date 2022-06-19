@@ -9,7 +9,6 @@ class CompanyService {
   public async getCompanies(req: Request, res: Response) {
     try {
       // Make a query to the DB and get all the companies
-      console.log(req.token)
       const data = await _DB.query(
         "SELECT * FROM companies WHERE id_user = $1",
         [req.token!.id]

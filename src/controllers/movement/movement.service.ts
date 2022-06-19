@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import _DB from "../../db/PostgreSqlConnection";
 import ServerResponse from "../../helpers/ServerResponse";
+import ArrayToObject from "../../helpers/ArrayToObject";
 
 class MovementService {
   /**
@@ -9,9 +10,14 @@ class MovementService {
    */
   public async getMovements(req: Request, res: Response) {
     try {
+      const company = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      console.log(company);
       const movements = await _DB.query(
         "SELECT * FROM movements WHERE id_company = $1 ORDER BY id DESC",
-        [req.token!.company.id]
+        [company.rows[0].id]
       );
       return ServerResponse.success(
         "Listado de movimientos",
