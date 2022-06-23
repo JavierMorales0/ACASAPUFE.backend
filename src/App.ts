@@ -5,6 +5,7 @@ import MovementController from "./controllers/movement/movement.controller";
 import UserController from "./controllers/user/user.controller";
 import LoginController from "./controllers/login/login.controller";
 import CompanyController from "./controllers/company/company.controller";
+import cors from "cors";
 
 class App {
   // app de express
@@ -21,6 +22,7 @@ class App {
   private middlewares(): void {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(cors({ origin: true }));
   }
 
   // Configuracion de las rutas de la app
