@@ -15,17 +15,9 @@ class ProductController extends Controller implements IController {
 
   public routes(): void {
     // GET /api/products/
-    this.router.get(
-      "/",
-      Auth.verifyToken,
-      ProductService.getProducts
-    );
+    this.router.get("/", Auth.verifyToken, ProductService.getProducts);
     // GET /api/products/all
-    this.router.get(
-      "/all",
-      Auth.verifyToken,
-      ProductService.getAllProducts
-    );
+    this.router.get("/all", Auth.verifyToken, ProductService.getAllProducts);
     // GET /api/products/:id
     this.router.get(
       "/:barcode",
@@ -43,12 +35,16 @@ class ProductController extends Controller implements IController {
       body("category").notEmpty().withMessage("Categoría es requerida"),
       ProductService.createProduct
     );
-    // DELETE /api/products/:id
-    this.router.delete(
+    // UPDATE /api/products/:id
+    this.router.put(
       "/:id",
       Auth.verifyToken,
-      ProductService.deleteProduct
+      body("description").notEmpty().withMessage("Descripción es requerida"),
+      body("category").notEmpty().withMessage("Categoría es requerida"),
+      ProductService.updateProduct
     );
+    // DELETE /api/products/:id
+    this.router.delete("/:id", Auth.verifyToken, ProductService.deleteProduct);
   }
 }
 

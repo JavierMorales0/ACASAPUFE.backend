@@ -197,6 +197,66 @@ class ProductService {
       );
     }
   }
+
+  /**
+   * Actualizar un producto
+   */
+
+  public async updateProduct(req: Request, res: Response) {
+    try {
+      const companiesArrayFromDb = await _DB.query(
+        "SELECT id FROM companies WHERE id_user = $1",
+        [req.token!.id]
+      );
+      if (companiesArrayFromDb.rowCount === 0) {
+        return ServerResponse.error(
+          "No se encontraron empresas asociadas a este usuario",
+          404,
+          null,
+          res
+        );
+      }
+      const company = ArrayToObject(companiesArrayFromDb.rows);
+      // Verify if there are errors
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+      }
+      // Get the barcode from params
+      const { id } = req.params;
+      // Get the data from the request
+      const { description, category, min_stock, measure, is_available } =
+        req.body;
+      const response = await _DB.query(
+        "UPDATE products SET description = $3, category = $4, min_stock = $5, measure = $6, is_available = $7 WHERE barcode = $1 AND id_company = $2 RETURNING *;",
+        [
+          id,
+          company.id,
+          description,
+          category,
+          min_stock ?? 0.0,
+          measure ?? "",
+          is_available ?? true,
+        ]
+      );
+      // Call the helper function to return the response
+      return ServerResponse.success(
+        "Producto actualizado",
+        200,
+        response.rows,
+        res
+      );
+    } catch (error) {
+      // Call the helper function to return the response
+      return ServerResponse.error(
+        "Error al crear el producto",
+        500,
+        error,
+        res
+      );
+    }
+  }
+
   /**
    *  Elimina un producto
    */
