@@ -1,7 +1,8 @@
 import moment from "moment";
 
 const GraphicMovementsForYear = (data: any) => {
-  let movements = [];
+  let labels = [];
+  let values = [];
   // Get this moment date
   let month = moment();
   // Counter for how many months we are going to evaluate
@@ -19,14 +20,38 @@ const GraphicMovementsForYear = (data: any) => {
       (element: any) => element.mes == tempNumberMonth
     );
     // If we dont find it, we set this to zero
-    if (!monthMovement) monthMovement = { mes: tempNumberMonth, cout: 0 };
+    if (!monthMovement) monthMovement = { mes: tempNumberMonth, count: 0 };
     // Push on movements
-    movements.push(monthMovement);
+    labels.push(getMonthName(monthMovement.mes));
+    values.push(monthMovement.count);
     // Subtract one month
     month = month.subtract(1, "month");
     counter = counter -= 1;
   }
-  return movements;
+  return {
+    labels,
+    values,
+  };
 };
 
+const getMonthName = (monthNumber: number) => {
+  const monthsName = [
+    { number: 1, name: "Ene" },
+    { number: 2, name: "Feb" },
+    { number: 3, name: "Mar" },
+    { number: 4, name: "Abr" },
+    { number: 5, name: "May" },
+    { number: 6, name: "Jun" },
+    { number: 7, name: "Jul" },
+    { number: 8, name: "Ago" },
+    { number: 9, name: "Sep" },
+    { number: 10, name: "Oct" },
+    { number: 11, name: "Nov" },
+    { number: 12, name: "Dic" },
+  ];
+  const monthSelected = monthsName.find(
+    (element: any) => element.number == monthNumber
+  );
+  return monthSelected?.name;
+};
 export default GraphicMovementsForYear;
