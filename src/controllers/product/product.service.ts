@@ -164,7 +164,6 @@ class ProductService {
       const {
         barcode,
         description,
-        stock,
         category,
         min_stock,
         measure,
@@ -177,7 +176,7 @@ class ProductService {
         [
           barcode,
           description,
-          stock,
+          0.0,
           category,
           min_stock ?? 0.0,
           measure ?? "",
