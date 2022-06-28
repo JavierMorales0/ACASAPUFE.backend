@@ -5,6 +5,7 @@ import MovementController from "./controllers/movement/movement.controller";
 import UserController from "./controllers/user/user.controller";
 import LoginController from "./controllers/login/login.controller";
 import CompanyController from "./controllers/company/company.controller";
+import DashboardController from "./controllers/dashboard/dashboard.controller";
 import cors from "cors";
 
 class App {
@@ -32,6 +33,7 @@ class App {
     this.app.use("/api/users", UserController);
     this.app.use("/api/login", LoginController);
     this.app.use("/api/companies", CompanyController);
+    this.app.use("/api/dashboard", DashboardController);
   }
 
   // Correr el servidor
