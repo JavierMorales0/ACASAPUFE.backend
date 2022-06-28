@@ -53,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"barcode\": \"12345678\",\r\n    \"description\": \"Producto de prueba\",\r\n    \"stock\": 10,\r\n    \"category\": \"Prueba\",\r\n    \"measure\": \"litros\"\r\n}",
+							"raw": "{\r\n    \"barcode\": \"123456783\",\r\n    \"description\": \"Producto de prueba\",\r\n    \"category\": \"Prueba\",\r\n    \"measure\": \"litros\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -138,9 +138,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{HOST}}/api/products/:id",
+							"raw": "{{SERVER}}/api/products/:id",
 							"host": [
-								"{{HOST}}"
+								"{{SERVER}}"
 							],
 							"path": [
 								"api",
@@ -436,7 +436,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"movement_type\": \"IN\",\r\n    \"quantity\": 45.00,\r\n    \"barcode_product\": \"12345678\",\r\n    \"id_tag\": 1\r\n}",
+							"raw": "{\r\n    \"movement_type\": \"IN\",\r\n    \"quantity\": 1.00,\r\n    \"barcode_product\": \"12345679\",\r\n    \"id_tag\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -591,6 +591,29 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "getDashboardInfo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST}}/api/dashboard",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"api",
+								"dashboard"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -598,7 +621,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RfbmFtZSI6IkphdmllciBBbGV4YW5kZXIiLCJsYXN0X25hbWUiOiJNb3JhbGVzIE1lbGFyYSIsImVtYWlsIjoiamF2aWVybW9yYWxlc21lbGFyYUBnbWFpbC5jb20iLCJwYXNzIjoiJDJiJDEwJEE4WElUVmtIRnlMajNPRzZGa0J6ZmVwc3FtZVJjaHptMWhnLkl6U1RWYWlpa3VhV1ZOMHRpIiwiaXNfYWN0aXZlIjp0cnVlLCJpYXQiOjE2NTU2MTAyMTgsImV4cCI6MTY1ODIwMjIxOH0.XPkHxyWLvOwtgGr_-Gg9llYOpIk8tmPNNxEtLO1jqxA",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZmlyc3RfbmFtZSI6IkVkZ2FyIEFudG9uaW8iLCJsYXN0X25hbWUiOiJSZXllcyBDZXLDs24iLCJlbWFpbCI6ImVkZHlyY0BnbWFpbC5jb20iLCJwYXNzIjoiJDJiJDEwJFRjQjZZMi52NUd6bVZ5QWowSkRLTE9wMFBUMkt3SU5kZW9aTkZHeUY4bjJ3VzE3cFVJbVAuIiwiaXNfYWN0aXZlIjp0cnVlLCJpYXQiOjE2NTYzNzg0NDgsImV4cCI6MTY1ODk3MDQ0OH0.6hK-in2xdhP4A6tc9bZKqKbs13kUXIFfKLOlCSrwn5k",
 				"type": "string"
 			}
 		]
