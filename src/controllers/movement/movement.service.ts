@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 import _DB from "../../db/PostgreSqlConnection";
 import ServerResponse from "../../helpers/ServerResponse";
 import ArrayToObject from "../../helpers/ArrayToObject";
+import productController from "../product/product.controller";
 
 class MovementService {
   /**
@@ -137,6 +138,8 @@ class MovementService {
       // Get the params from the body
       const { movement_type, barcode_product, quantity, description, id_tag } =
         req.body;
+
+      // Verify company exists
       const companiesArrayFromDb = await _DB.query(
         "SELECT id FROM companies WHERE id_user = $1",
         [req.token!.id]
@@ -150,6 +153,21 @@ class MovementService {
         );
       }
       const company = ArrayToObject(companiesArrayFromDb.rows);
+
+      // Verify product exists
+      const productArrayFromDb = await _DB.query(
+        "SELECT exists(SELECT 1 FROM products WHERE barcode = $1 AND id_company = $2);",
+        [barcode_product, company.id]
+      );
+      const product = ArrayToObject(productArrayFromDb.rows);
+      if (!product.exists) {
+        return ServerResponse.error(
+          "No se encontro el producto",
+          404,
+          null,
+          res
+        );
+      }
       // Make a query to the database and create the movement
       const response = await _DB.query(
         "INSERT INTO movements (movement_type, barcode_product, id_company, quantity, description, id_tag) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",

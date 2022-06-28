@@ -83,7 +83,26 @@ $$
 $$;
 
 CREATE TRIGGER delete_old_movements_trigger AFTER INSERT ON movements
-    FOR EACH ROW EXECUTE PROCEDURE delete_old_movements();
+    FOR EACH ROW EXECUTE FUNCTION delete_old_movements();
+
+/* CREAR TRIGGER PARA QUE DESPUES DE INSERTAR UN MOVIMIENTO, ACTUALICE EL
+    STOCK DEL PRODUCTO */
+CREATE OR REPLACE FUNCTION update_stock() RETURNS trigger LANGUAGE plpgsql AS
+$$
+  BEGIN
+      IF NEW.movement_type = 'IN'
+    THEN
+      UPDATE products SET stock = stock + NEW.quantity WHERE barcode = NEW.barcode_product AND id_company = NEW.id_company;
+    ELSIF NEW.movement_type = 'OUT'
+    THEN
+      UPDATE products SET stock = stock - NEW.quantity WHERE barcode = NEW.barcode_product AND id_company = NEW.id_company;
+    END IF;
+    RETURN NULL;
+  END;
+$$;
+
+CREATE TRIGGER update_stock AFTER INSERT ON movements
+    FOR EACH ROW EXECUTE FUNCTION update_stock();
 
 -- CREATE VIEW PARA MOSTRAR LAS EMPRESAS DE UN USUARIO
 CREATE OR REPLACE VIEW user_companies_view AS
