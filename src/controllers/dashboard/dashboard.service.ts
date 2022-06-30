@@ -72,18 +72,23 @@ class DashboardService {
       const graphicOutMovements = GraphicMovementsForYear(
         queryTotalOutMovementsYear.rows
       );
+      // Make a query to get the products with less stock than min
+      const queryProductsWithLessStockThanMin = await _DB.query(
+        "SELECT barcode, description, stock, min_stock, measure FROM products WHERE id_company = $1 AND min_stock >= stock",
+        [company.id]
+      );
       // Fomat the response
       const response = {
         totalProducts,
         totalInMovements,
         totalOutMovements,
+        productsWithLowStock: queryProductsWithLessStockThanMin.rows,
         graphicInMovements,
         graphicOutMovements,
       };
       // Call the helper function to return the response
       return ServerResponse.success("Datos de dashboard", 200, response, res);
     } catch (error: any) {
-      console.log(error);
       // Call the helper function to return the response
       return ServerResponse.error("Error al loguearse", 500, error, res);
     }

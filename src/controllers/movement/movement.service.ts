@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 import _DB from "../../db/PostgreSqlConnection";
 import ServerResponse from "../../helpers/ServerResponse";
 import ArrayToObject from "../../helpers/ArrayToObject";
+import FormatDateForMovements from "../../helpers/FormatDate";
 import productController from "../product/product.controller";
 
 class MovementService {
@@ -24,14 +25,15 @@ class MovementService {
         );
       }
       const company = ArrayToObject(companiesArrayFromDb.rows);
-      const movements = await _DB.query(
+      const arrayMovements = await _DB.query(
         "SELECT * FROM movements WHERE id_company = $1 ORDER BY id DESC",
         [company.id]
       );
+      const movements = FormatDateForMovements(arrayMovements.rows);
       return ServerResponse.success(
         "Listado de movimientos",
         200,
-        movements.rows,
+        movements,
         res
       );
     } catch (error) {
